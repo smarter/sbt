@@ -7,11 +7,11 @@ import Sxr.sxr
 // but can be shared across the multi projects.
 def buildLevelSettings: Seq[Setting[_]] = inThisBuild(Seq(
   organization := "org.scala-sbt",
-  version := "1.0.0-SNAPSHOT",
-  bintrayOrganization := Some(if (publishStatus.value == "releases") "typesafe" else "sbt"),
-  bintrayRepository := s"ivy-${publishStatus.value}",
+  version := "1.0.0-M0-dotty1",
+  bintrayOrganization := None,
+  bintrayRepository := s"ivy-sbt",
   bintrayPackage := "sbt",
-  bintrayReleaseOnPublish := false,
+  bintrayReleaseOnPublish := true,
   resolvers += Resolver.mavenLocal
 ))
 
@@ -24,6 +24,7 @@ def commonSettings: Seq[Setting[_]] = Seq(
   resolvers += Resolver.typesafeIvyRepo("releases"),
   resolvers += Resolver.sonatypeRepo("snapshots"),
   resolvers += Resolver.bintrayRepo("sbt", "maven-releases"),
+  resolvers += Resolver.bintrayRepo("smarter", "maven"),
   concurrentRestrictions in Global += Util.testExclusiveRestriction,
   testOptions += Tests.Argument(TestFrameworks.ScalaCheck, "-w", "1"),
   javacOptions in compile ++= Seq("-target", "6", "-source", "6", "-Xlint", "-Xlint:-serial"),
