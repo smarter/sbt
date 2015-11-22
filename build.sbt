@@ -8,8 +8,8 @@ import Sxr.sxr
 def buildLevelSettings: Seq[Setting[_]] = inThisBuild(Seq(
   organization := "org.scala-sbt",
   version := "1.0.0-SNAPSHOT",
-  bintrayOrganization := Some(if (publishStatus.value == "releases") "typesafe" else "sbt"),
-  bintrayRepository := s"ivy-${publishStatus.value}",
+  bintrayOrganization := None,
+  bintrayRepository := "ivy-sbt",
   bintrayPackage := "sbt",
   bintrayReleaseOnPublish := false,
   resolvers += Resolver.mavenLocal
