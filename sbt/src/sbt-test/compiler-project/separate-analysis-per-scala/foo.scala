@@ -1,6 +1,6 @@
 package foo
 
-object Foo extends App {
+object Foo extends dotty.runtime.LegacyApp {
   println("yay")
 }
 

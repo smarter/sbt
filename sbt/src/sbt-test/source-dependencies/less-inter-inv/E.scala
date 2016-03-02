@@ -1,3 +1,3 @@
-object E extends App {
+object E extends dotty.runtime.LegacyApp {
 	assert(D.x == "3")
 }
