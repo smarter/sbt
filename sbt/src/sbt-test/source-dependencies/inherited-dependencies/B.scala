@@ -12,8 +12,9 @@ class B {
 	}
 
 	def y(j: Int): Unit = {
-		// not public
-		val w: D { def length: Int } = ???
+	    // not public
+		trait D2 extends D { def length: Int }
+		val w: D2 = ???
 		()
 	}
 }
