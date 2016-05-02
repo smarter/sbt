@@ -152,6 +152,7 @@ class ScalaCompilerForUnitTesting(nameHashing: Boolean = false) {
       def outputDirectory: File = outputDir
       override def toString = s"SingleOutput($outputDirectory)"
     }
+    val dotty = dotty.tools.dotc.core.Main
     val weakLog = new WeakLog(ConsoleLogger(), ConsoleReporter)
     val cachedCompiler = new CachedCompiler0(args, output, weakLog, false)
     val settings = cachedCompiler.settings

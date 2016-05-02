@@ -475,7 +475,32 @@ def otherRootSettings = Seq(
   publishAll := {
     val _ = (publishLocal).all(ScopeFilter(inAnyProject)).value
   },
-  aggregate in bintrayRelease := false
+  aggregate in bintrayRelease := false,
+  Scripted.scriptedPrescripted := { f =>
+    val inj = f / "project"/ "DottyInjectedPlugin.scala"
+    if (!inj.exists) {
+      IO.write(inj, """
+import sbt._
+import Keys._
+
+object DottyInjectedPlugin extends AutoPlugin {
+  override def requires = plugins.JvmPlugin
+  override def trigger = allRequirements
+
+  override val projectSettings = Seq(
+    scalaVersion := "0.1-SNAPSHOT",
+    scalacOptions += "-language:Scala2",
+    scalaBinaryVersion  := "2.11",
+    autoScalaLibrary := false,
+    libraryDependencies ++= Seq("org.scala-lang" % "scala-library" % "2.11.5"),
+    scalaCompilerBridgeSource := ("ch.epfl.lamp" % "dotty-bridge" % "0.1-SNAPSHOT" % "component").sources()
+  )
+}
+""")
+      println(s"""Injected DottyInjectedPlugin.scala to $f""")
+    }
+  }
+
 ) ++ inConfig(Scripted.MavenResolverPluginTest)(Seq(
   Scripted.scripted <<= scriptedTask,
   Scripted.scriptedUnpublished <<= scriptedUnpublishedTask,
