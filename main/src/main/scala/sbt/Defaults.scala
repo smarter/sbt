@@ -989,8 +989,10 @@ object Defaults extends BuildCommon {
   def mainBgRunTask = bgRun := bgRunTask(exportedProductJars, fullClasspathAsJars in Runtime, mainClass in run, bgCopyClasspath in bgRun, runner in run).evaluated
   def mainBgRunMainTask = bgRunMain := bgRunMainTask(exportedProductJars, fullClasspathAsJars in Runtime, bgCopyClasspath in bgRunMain, runner in run).evaluated
 
-  def discoverMainClasses(analysis: CompileAnalysis): Seq[String] =
-    Discovery.applications(Tests.allDefs(analysis)).collect({ case (definition, discovered) if discovered.hasMain => definition.name }).sorted
+  def discoverMainClasses(analysis: CompileAnalysis): Seq[String] = analysis match {
+    case analysis: Analysis =>
+      analysis.infos.allInfos.values.map(_.mainClasses).flatten.toSeq.sorted
+  }
 
   def consoleProjectTask =
     Def.task {
